@@ -1,4 +1,6 @@
+import base64
 import datetime as dt
+from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import pandas as pd
@@ -21,12 +23,59 @@ from processing import (
     write_workbook,
 )
 
-st.set_page_config(page_title="تحديث شيت Ejadah", page_icon="📊", layout="wide")
+LOGO_PATH = Path(__file__).parent / "assets" / "logo.png"
+PURPLE, GREEN = "#4F008C", "#00C48C"
+
+st.set_page_config(page_title="تحديث شيت Ejadah", page_icon=str(LOGO_PATH), layout="wide")
+
+_logo_b64 = base64.b64encode(LOGO_PATH.read_bytes()).decode()
 st.markdown(
-    "<style>html, body, [data-testid='stAppViewContainer'] {direction: rtl; text-align: right;}</style>",
+    f"""
+<style>
+html, body, [data-testid='stAppViewContainer'] {{direction: rtl; text-align: right;}}
+[data-testid="stHeader"] {{background: transparent;}}
+.block-container {{padding-top: 1.5rem; max-width: 1200px;}}
+.hero {{
+  display: flex; align-items: center; gap: 20px; direction: rtl;
+  background: linear-gradient(120deg, {PURPLE} 0%, #6A12AE 100%);
+  border-bottom: 6px solid {GREEN}; border-radius: 18px;
+  padding: 20px 28px; margin-bottom: 1.5rem; color: #fff;
+  box-shadow: 0 6px 20px rgba(79,0,140,.25);
+}}
+.hero img {{width: 76px; height: 76px; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.3);}}
+.hero h1 {{margin: 0; font-size: 1.9rem; color: #fff; padding: 0;}}
+.hero p {{margin: 4px 0 0; color: #D9F8EE; font-size: 1rem;}}
+/* بطاقات الأرقام */
+[data-testid="stMetric"] {{
+  background: #F4EEFA; border-right: 5px solid {GREEN}; border-radius: 12px; padding: 12px 16px;
+}}
+[data-testid="stMetricValue"] {{color: {PURPLE}; font-weight: 700;}}
+/* التابات */
+.stTabs [data-baseweb="tab-list"] {{gap: 8px;}}
+.stTabs [data-baseweb="tab"] {{background: #F4EEFA; border-radius: 10px 10px 0 0; padding: 8px 20px; color: {PURPLE};}}
+.stTabs [aria-selected="true"] {{background: {PURPLE}; color: #fff !important;}}
+.stTabs [data-baseweb="tab-highlight"] {{background-color: {GREEN}; height: 4px;}}
+/* الأزرار */
+.stButton > button[kind="primary"], .stDownloadButton > button {{
+  background: {GREEN}; color: #fff; border: none; border-radius: 12px; font-weight: 700; padding: .6rem 1.6rem;
+}}
+.stButton > button[kind="primary"]:hover, .stDownloadButton > button:hover {{background: #00A878; color: #fff;}}
+/* رفع الملفات */
+[data-testid="stFileUploader"] section {{border: 2px dashed {PURPLE}; border-radius: 14px; background: #FAF6FD;}}
+[data-testid="stFileUploader"] button {{border-color: {PURPLE}; color: {PURPLE};}}
+h3, h4, strong {{color: {PURPLE};}}
+hr {{border-color: {GREEN} !important; opacity: .4;}}
+</style>
+<div class="hero">
+  <img src="data:image/png;base64,{_logo_b64}" alt="STC Bank">
+  <div>
+    <h1>تحديث شيت Ejadah اليومي</h1>
+    <p>ارفع الملفين، راجع النتيجة، ونزّل الشيت المحدّث</p>
+  </div>
+</div>
+""",
     unsafe_allow_html=True,
 )
-st.title("📊 تحديث شيت Ejadah اليومي")
 
 
 @st.cache_data(show_spinner="بقرا الملف...")
