@@ -69,7 +69,7 @@ hr {{border-color: {GREEN} !important; opacity: .4;}}
 <div class="hero">
   <img src="data:image/png;base64,{_logo_b64}" alt="STC Bank">
   <div>
-    <h1>تحديث شيت Ejadah اليومي</h1>
+    <h1>تحديث محفظة STC Bank</h1>
     <p>ارفع الملفين، راجع النتيجة، ونزّل الشيت المحدّث</p>
   </div>
 </div>
